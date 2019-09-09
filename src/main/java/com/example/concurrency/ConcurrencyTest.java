@@ -46,11 +46,12 @@ public class ConcurrencyTest {
         }
         //所有线程执行完之后打印count的值
         countDownLatch.await();
+
         //关闭线程池
         executorService.shutdown();
         log.info("count-> " + count);
-
     }
+
 
     //线程[不安全]方法
     private static void add(){

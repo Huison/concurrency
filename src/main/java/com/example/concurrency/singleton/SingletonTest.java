@@ -1,5 +1,6 @@
 package com.example.concurrency.singleton;
 
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,8 +33,6 @@ public class SingletonTest {
 
 }
 
-
-
 class Woshinibaba{
 
     public static void main(String[] args) {
@@ -48,6 +47,24 @@ class Woshinibaba{
             System.out.println(singletonTest1.hashCode());
         });
         executorService.shutdown();
+
+//         Thread thread = new Thread(){
+//             @Override
+//             public void run() {
+//                 System.out.println(1);
+//             }
+//         };
+//         thread.start();
+//
+//
+//
+//        Thread thread1 = new Thread(){
+//            @Override
+//            public void run() {
+//                System.out.println(1);
+//            }
+//        };
+//        thread1.start();
 
     }
 

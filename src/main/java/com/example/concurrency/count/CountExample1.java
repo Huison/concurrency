@@ -50,11 +50,14 @@ public class CountExample1 {
         executorService.shutdown();
         log.info("count-> " + count);
 
+
+
     }
 
     //线程[不安全]方法
     private static void add(){
         count++;
+
     }
 }
 

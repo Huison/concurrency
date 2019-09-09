@@ -50,35 +50,55 @@ public class CountExample2 {
         countDownLatch.await();
         //关闭线程池
         executorService.shutdown();
-        log.info("count-> " + count.get());
+        log.info("count-> {}" , count.get());
 
     }
 
     //线程安全方法
     private static void add(){
         count.incrementAndGet();
-
     }
 
     /**
      *
+     *
+     *
+     * public class AtomicInteger extends Number implements java.io.Serializable {
+     *     private static final long serialVersionUID = 6214790243416807050L;
+     *
+     *     // setup to use Unsafe.compareAndSwapInt for updates
+     *     private static final Unsafe unsafe = Unsafe.getUnsafe();
+     *     private static final long valueOffset;
+     *
+     *     static {
+     *         try {
+     *             valueOffset = unsafe.objectFieldOffset
+     *                 (AtomicInteger.class.getDeclaredField("value"));
+     *         } catch (Exception ex) { throw new Error(ex); }
+     *     }
+     *
+     *     private volatile int value;
+     *
      *   public final int incrementAndGet() {
+     *
      *         return unsafe.getAndAddInt(this, valueOffset, 1) + 1;
      *     }
-
+     *
+     *
+     *
      *    var1: 表示调用这个方法的对象 count
-     *    var2: 表示当前线程的工作内存中值
-     *    var4: 表示要增加的值
+     *    var2: 表示偏移量
+     *    var4: 表示要增加的值         1
      *    var5: 表示主内存的值
-     *   public final int getAndAddInt(Object var1, long var2, int var4) {
+     *    public final int getAndAddInt(Object var1, long var2, int var4) {
      *         int var5;
      *         do {
      *             //获取主内存的值
      *             var5 = this.getIntVolatile(var1, var2);
      *         }
-     *
      *         循环直到工作内存的值等于主内存的值才会更新主内存的值 var5 = var5 + var4
-     *         while(!this.compareAndSwapInt(var1, var2, var5, var5: var5 + var4));
+     *                     compareAndSwapInt（obj, offset, expect, update）
+     *         while(!this.compareAndSwapInt(var1, var2, var5, var5 + var4));
      *
      *         return var5;
      *     }
