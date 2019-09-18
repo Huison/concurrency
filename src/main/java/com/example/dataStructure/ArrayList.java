@@ -1,31 +1,29 @@
 package com.example.dataStructure;
-
-
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.Callable;
+
 /**
- *
  *  动态数组的实现
- *
  */
 @Slf4j
-public class ArrayList {
+public class ArrayList<E> {
     //数组中元素的数量
     private int size;
-
     //所有的元素
-    private int[] elements;
-
+    private E[] elements;
     //默认数组的容量
     private static final int DEFAULT_CAPACITY = 16;
     //标示元素没找到
     private static final int ELEMENT_NOT_FOUND = -1;
 
-
-
     public ArrayList(int capacity){
         capacity = capacity > DEFAULT_CAPACITY ? capacity : DEFAULT_CAPACITY;
-        elements = new int[capacity];
+        elements = (E[]) new Object[capacity];
     }
 
     public ArrayList(){
@@ -41,34 +39,34 @@ public class ArrayList {
     }
 
     //是否包含这个元素
-    public boolean contains(int element){
+    public boolean contains(E element){
         return indexOf(element) != ELEMENT_NOT_FOUND;
     }
 
     //添加元素到最后面 0 1 2
-    public void add(int element){
+    public void add(E element){
        add(size, element);
     }
 
     //返回index位置对应的元素
-    public int get(int index){
+    public E get(int index){
         checkIndex(index);
         return elements[index];
     }
 
     //设置index位置的元素
     //返回原来的元素
-    public int set(int index, int element){
+    public E set(int index, E element){
         checkIndex(index);
         //获取原来的元素
-        int old = elements[index];
+        E old = elements[index];
         elements[index] = element;
         return old;
         }
 
 
     //查看元素的位置
-    public int indexOf(int element){
+    public int indexOf(E element){
 
         for (int i = 0; i <size ; i++) {
             if(elements[i] == element){
@@ -124,7 +122,7 @@ public class ArrayList {
     }
 
     //往index位置添加元素
-    public void add(int index, int element){
+    public void add(int index, E element){
         checkIndexForAdd(index);
 
         /**
@@ -152,7 +150,7 @@ public class ArrayList {
         }else {
             //扩容1.5倍 24
             int newCapacity = oldCapacity + (oldCapacity >> 1);
-            int[] newElements = new int[newCapacity];
+            E[] newElements = (E[]) new Object[newCapacity];
             log.info("原来容量{}扩容后为{}", oldCapacity, newCapacity);
             for (int i = 0; i < size; i++) {
                 newElements[i] = elements[i];
@@ -163,10 +161,27 @@ public class ArrayList {
     }
 
     public static void main(String[] args) {
-        ArrayList list = new ArrayList();
-        for (int i = 0; i < 50; i++) {
-            list.add(i);
-        }
-        log.info("list={}", list);
+         ArrayList<Cat> list = new ArrayList<>();
+         Cat cat = new Cat("小黑", "black");
+         Cat cat1 = new Cat("小白", "white");
+         list.add(cat);
+         list.add(cat1);
+         log.info("{}", list);
+    }
+
+
+
+}
+
+@Getter
+@Setter
+@ToString
+class Cat{
+    private String name;
+    private String color;
+
+    public Cat(String name, String color) {
+        this.name = name;
+        this.color = color;
     }
 }
