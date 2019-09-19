@@ -65,18 +65,38 @@ public class ArrayList<E> {
         }
 
 
-    //查看元素的位置
+    /**
+     *  查找元素的位置
+     *  null调用equals方法,会出现空指针异常
+     *
+     *
+     * @param element
+     * @return 元素的下标
+     */
     public int indexOf(E element){
-
-        for (int i = 0; i <size ; i++) {
-            if(elements[i] == element){
-                return i;
+        //如果要查找的元素为null,就返回第一个null的下标.这个可以自己定义.
+        if(element == null){
+            for (int i = 0; i < size; i++) {
+                if(elements[i] == element){
+                    return i;
+                }
+            }
+        //对于要查找的元素不为空,但数组中的元素也有可能有空的,所以用查找的元素来的调用equals方法
+        }else{
+            for (int i = 0; i <size ; i++) {
+                if(element.equals(elements[i])){
+                    return i;
+                }
             }
         }
         return ELEMENT_NOT_FOUND;
     }
 
+    //清除数组元素
     public void clear(){
+        for (int i = 0; i < size; i++) {
+            elements[i] = null;
+        }
         size = 0;
     }
 
@@ -102,7 +122,8 @@ public class ArrayList<E> {
         for (int i = index; i < size - 1; i++) {
             elements[i] = elements[i + 1];
         }
-        size--;
+
+        elements[--size] = null;
     }
 
     public void outOfBoundes(int index){
@@ -161,16 +182,12 @@ public class ArrayList<E> {
     }
 
     public static void main(String[] args) {
-         ArrayList<Cat> list = new ArrayList<>();
-         Cat cat = new Cat("小黑", "black");
-         Cat cat1 = new Cat("小白", "white");
-         list.add(cat);
-         list.add(cat1);
-         log.info("{}", list);
+        ArrayList<Cat> list = new ArrayList<>();
+        Cat cat = new Cat("小黑", "black");
+        Cat cat1 = new Cat("小白", "white");
+        list.add(cat);list.add(null);list.add(cat1);list.add(null);
+        log.info("list={}", list.indexOf(null));
     }
-
-
-
 }
 
 @Getter
@@ -184,4 +201,11 @@ class Cat{
         this.name = name;
         this.color = color;
     }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        System.out.println("person - finalize");
+    }
+
 }
